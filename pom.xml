@@ -15,6 +15,7 @@
     <description>movie-rental</description>
     <properties>
         <java.version>17</java.version>
+        <cucumberVersion>7.11.0</cucumberVersion>
     </properties>
     <dependencies>
         <dependency>
@@ -25,6 +26,24 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumberVersion}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>${cucumberVersion}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-spring</artifactId>
+            <version>${cucumberVersion}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
