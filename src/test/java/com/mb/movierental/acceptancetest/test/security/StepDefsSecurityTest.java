@@ -14,7 +14,8 @@ import io.cucumber.java.en.When;
 import java.io.IOException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicHeader;
@@ -41,7 +42,7 @@ public class StepDefsSecurityTest extends SecurityTestBase {
   }
 
   static String credentials;
-  static HttpPost request;
+  static HttpRequestBase request;
   static HttpResponse response;
 
   @Given("correct {string} and {string}")
@@ -66,16 +67,18 @@ public class StepDefsSecurityTest extends SecurityTestBase {
 
   @Then("request has 401 status")
   public void requestHas401Status() throws IOException {
-    assertThat(response.getStatusLine().getStatusCode()).isEqualTo(200);
+    assertThat(response.getStatusLine().getStatusCode()).isEqualTo(401);
   }
 
   private void prepareRequest(String login, String password) {
     StringBuilder stringBuilder = new StringBuilder();
     credentials = stringBuilder.append(login).append(":").append(password).toString();
-    request = new HttpPost(AUTHENTICATION_URL);
-    byte[] plainCredentialsBytes = this.credentials.getBytes();
+    request = new HttpGet(AUTHENTICATION_URL);
+    byte[] plainCredentialsBytes = credentials.getBytes();
     byte[] base64CredentialBytes = Base64.encodeBase64(plainCredentialsBytes);
-    String base64Creds = new String(base64CredentialBytes);
-    request.setHeader(new BasicHeader("Authenticate", base64Creds));
+    stringBuilder = new StringBuilder();
+    stringBuilder.append("Basic").append(" ").append(new String(base64CredentialBytes));
+    String base64Creds = stringBuilder.toString();
+    request.setHeader(new BasicHeader("Authorization", base64Creds));
   }
 }
