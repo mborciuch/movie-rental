@@ -19,6 +19,8 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicHeader;
+import org.springframework.boot.test.web.server.LocalServerPort;
+
 
 public class StepDefsSecurityTest extends SecurityTestBase {
 
@@ -26,8 +28,12 @@ public class StepDefsSecurityTest extends SecurityTestBase {
 
   protected static ObjectMapper objectMapper;
 
+  @LocalServerPort
+  int port;
+
   @BeforeAll
   public static void setUpAll() {
+
     httpClient = HttpClientBuilder.create().build();
     objectMapper = new ObjectMapper();
     objectMapper.registerModules(new JavaTimeModule(), new Jdk8Module());
@@ -35,7 +41,7 @@ public class StepDefsSecurityTest extends SecurityTestBase {
   }
 
   @After
-  public static void tearDown() {
+  public  void tearDown() {
     StepDefsSecurityTest.credentials = null;
     request = null;
     response = null;
@@ -73,7 +79,7 @@ public class StepDefsSecurityTest extends SecurityTestBase {
   private void prepareRequest(String login, String password) {
     StringBuilder stringBuilder = new StringBuilder();
     credentials = stringBuilder.append(login).append(":").append(password).toString();
-    request = new HttpGet(AUTHENTICATION_URL);
+    request = new HttpGet(SecurityTestBase.getURL(port));
     byte[] plainCredentialsBytes = credentials.getBytes();
     byte[] base64CredentialBytes = Base64.encodeBase64(plainCredentialsBytes);
     stringBuilder = new StringBuilder();
