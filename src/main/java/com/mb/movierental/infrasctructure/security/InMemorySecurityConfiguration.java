@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class InMemorySecurityConfiguration {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.authorizeHttpRequests((authz) -> authz.anyRequest().authenticated())
+    http.authorizeHttpRequests(authz -> authz.anyRequest().authenticated())
         .httpBasic(Customizer.withDefaults())
         .sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
