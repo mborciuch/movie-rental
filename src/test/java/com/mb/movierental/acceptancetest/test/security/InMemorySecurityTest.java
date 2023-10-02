@@ -21,8 +21,8 @@ import java.io.IOException;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("security-in-memory")
+
+//For reference Only
 public class InMemorySecurityTest extends SecurityTestBase {
 
   protected  static CloseableHttpClient httpClient;
@@ -49,7 +49,6 @@ public class InMemorySecurityTest extends SecurityTestBase {
   @Test
   void inMemoryLogin_CorrectCredentials_200 () throws IOException {
     HttpGet httpGet = this.prepareRequest("user", "password");
-
 
     CloseableHttpResponse response = httpClient.execute(httpGet);
 
