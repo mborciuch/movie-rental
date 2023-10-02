@@ -1,4 +1,4 @@
-package com.mb.movierental.infrasctructure.security;
+package com.mb.movierental.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
